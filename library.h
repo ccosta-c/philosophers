@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:51:53 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/05/29 11:44:15 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:13:18 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,14 @@
 
 typedef struct s_philos
 {
-	int	id;
-	int	times_eaten;
-}		t_philos;
+	pthread_t	philo;
+	int			id;
+	int			times_eaten;
+}				t_philos;
+
+typedef struct s_overseer
+{
+}			t_overseer;
 
 typedef struct s_data
 {
@@ -32,15 +37,24 @@ typedef struct s_data
 	int				times_to_eat;
 	t_philos		*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	abeprint;
+	pthread_mutex_t	print;
+	t_overseer		overseer;
 }					t_data;
 
 //main.c
 int			get_values(char **argv, t_data *args);
+
+//initialize.c
+int			initialize_forks(t_data *data);
+int			initialize_philos(t_data *data);
+int			simulation_prep(t_data *data);
 int			initialize(t_data *data);
 
 //utils.c
 int			ft_atoi(const char *str);
 int			ft_whitespace(const char *str, int *ptr_i);
 
+//actions.c
+
+int			simulation(t_data *data);
 #endif
