@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:20:32 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/13 15:18:50 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:09:13 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	initialize_philos(t_data *data)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].times_eaten = 0;
+		data->philos[i].data = data;
 		i++;
 	}
 	return (0);
@@ -57,12 +58,13 @@ int	simulation_prep(t_data *data)
 	i = 0;
 	while (i < data->nbr_philos)
 	{
-		pthread_create(&data->philos->philo, NULL, &simulation, data);
+		pthread_create(&data->philos[i]->philo, NULL, &simulation, &data->philos[i]);
 	}
 }
 
 int	initialize(t_data *data)
 {
+	data->start_time = get_time();
 	if (pthread_mutex_init(&data->print, NULL))
 	{
 		printf("Error in the print lock");
