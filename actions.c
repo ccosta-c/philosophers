@@ -19,5 +19,5 @@ int	simulation(t_data *data)
 
 int	eat(t_data *data);
 {
-	pthread_mutex_lock()
+	pthread_mutex_t 
 }
