@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:45:20 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/14 19:51:11 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:52:58 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	get_values(char **argv, t_data *args)
 		args->time_sleep = ft_atoi(argv[4]);
 		if (argv[5])
 			args->times_to_eat = ft_atoi(argv[5]);
-		if (args->times_to_eat <= 0)
-			return (-1);
 		if (!argv[5])
 			args->times_to_eat = -1;
 	}
@@ -44,10 +42,7 @@ int	main(int argc, char **argv)
 			printf("Wrong type of arguments\n");
 			return (-1);
 		}
-//		if (initialize(&data) == -1)
-//			return (-1);
-		data.start_time = get_time();
-		sleep(1);
-		printf("%lld", time_ms(data.start_time));
+		if (initialize(&data) == -1)
+			return (-1);
 	}
 }

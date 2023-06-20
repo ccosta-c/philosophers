@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:20:32 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/14 20:09:13 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:09:21 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,28 @@ int	initialize_philos(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].times_eaten = 0;
 		data->philos[i].data = data;
+		data->philos[i].l_fork = &data->forks[i];
+		data->philos[i].r_fork = &data->forks[i + 1];
+
 		i++;
 	}
 	return (0);
 }
 
-int	simulation_prep(t_data *data)
+void	simulation_prep(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->nbr_philos)
 	{
-		pthread_create(&data->philos[i]->philo, NULL, &simulation, &data->philos[i]);
+		pthread_create(&data->philos[i].philo, NULL,
+			&simulation, &data->philos[i]);
+		usleep(1000);
+		i++;
 	}
+	while (1)
+		pause();
 }
 
 int	initialize(t_data *data)
@@ -77,4 +85,6 @@ int	initialize(t_data *data)
 		printf("Error in the philosophers init.");
 		return (-1);
 	}
+	simulation_prep(data);
+	return (0);
 }

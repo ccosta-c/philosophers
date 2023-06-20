@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:03:17 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/14 20:12:33 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:56:04 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ long long	get_time(void)
 void	ft_print(t_philos *philo, char *str)
 {
 	pthread_mutex_lock(&philo->data->print);
-	printf("%lld ms %d %s\n", get_time(), philo->id, str);
+	printf("%lld %d %s\n", time_ms(philo->data->start_time), philo->id, str);
 	pthread_mutex_unlock(&philo->data->print);
 }
