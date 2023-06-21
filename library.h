@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:51:53 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/20 15:47:25 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:07:19 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_overseer
 
 typedef struct s_philos
 {
+	int				last_meal;
 	pthread_t		philo;
 	int				id;
 	int				times_eaten;
@@ -70,5 +71,9 @@ void		ft_sleep(t_philos *philo);
 void		*simulation(void *philo);
 int			grab_forks(t_philos *philo);
 void		ft_eat(t_philos *philo);
+
+//overseer.c
+
+void	overseer(t_data *data);
 
 #endif

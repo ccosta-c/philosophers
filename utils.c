@@ -78,3 +78,4 @@ void	ft_print(t_philos *philo, char *str)
 	printf("%lld %d %s\n", time_ms(philo->data->start_time), philo->id, str);
 	pthread_mutex_unlock(&philo->data->print);
 }
+

@@ -36,7 +36,7 @@ SRCS		= .
 SRCS_BONUS	= bonus
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FILES _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
-SRC				= utils.c initialize.c actions.c
+SRC				= utils.c initialize.c actions.c overseer.c
 OBJS 			:= $(SRC:.c=.o)
 BONUS			=
 OBJS_BONUS		:= $(BONUS:.c=.o)
