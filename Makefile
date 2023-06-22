@@ -26,7 +26,7 @@ CC = cc
 RM = rm -f
 AR = ar -rcs
 
-#_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
+#_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_-fsanitize=thread
 CFLAGS		= -Wall -Wextra -Werror -g -pthread
 MKFLAGS		= --no-print-directory
 

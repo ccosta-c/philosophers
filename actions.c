@@ -32,7 +32,7 @@ void	*simulation(void *philo)
 
 void	ft_eat(t_philos *philo)
 {
-	philo->last_meal = time_ms(philo->data->last_meal);
+	philo->last_meal = time_ms(philo->data->start_time);
 	ft_print(philo, "is eating.");
 	philo->data->last_meal = time_ms(philo->data->start_time);
 	usleep(philo->data->time_eat * 1000);
