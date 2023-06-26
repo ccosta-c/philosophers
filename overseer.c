@@ -12,27 +12,29 @@
 
 #include "library.h"
 
+int     check_each_philo(t_philos *philo)
+{
+    if (((time_ms(philo->data->start_time) - philo->last_meal ) > philo->data->time_die))
+    {
+        ft_print(philo, "died.");
+        return (-1);
+    }
+    return (0);
+}
+
 void	overseer(t_data *data)
 {
-	int	i;
-	int	check;
+    int i;
+    t_philos *tmp;
 
-	check = 1;
-	i = 0;
-	while (1)
-	{
-		if (data->last_meal == 1)
-		{
-			break ;
-		}
-
-//		while (i < data->nbr_philos)
-//		{
-//			if (data->philos[i].times_eaten < data->times_to_eat)
-//				check = 0;
-//			i++;
-//		}
-//		if (check == 1)
-//			break ;
-	}
+    while (1)
+    {
+        i = 0;
+        while (i < data->nbr_philos) {
+            tmp = &data->philos[i];
+            if (check_each_philo(tmp) == -1)
+                return;
+            i++;
+        }
+    }
 }

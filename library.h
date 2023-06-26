@@ -75,5 +75,6 @@ void		ft_eat(t_philos *philo);
 //overseer.c
 
 void	overseer(t_data *data);
+int     check_each_philo(t_philos *philo);
 
 #endif
