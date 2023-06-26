@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:20:32 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/21 12:05:21 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:13:43 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	simulation_prep(t_data *data)
 int	initialize(t_data *data)
 {
 	data->start_time = get_time();
-	data->last_meal = 0;
+	data->all_ate = 0;
+	data->died = 0;
 	if (pthread_mutex_init(&data->print, NULL))
 	{
 		printf("Error in the print lock");

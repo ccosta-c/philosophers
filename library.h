@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:51:53 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/21 12:07:19 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:16:45 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-typedef struct s_overseer
-{
-}			t_overseer;
 
 typedef struct s_philos
 {
@@ -41,12 +37,13 @@ typedef struct s_data
 	int				time_eat;
 	int				time_sleep;
 	int				times_to_eat;
+	int				meals_completed;
+	int				died;
+	int				all_ate;
 	t_philos		*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
-	t_overseer		overseer;
 	long long		start_time;
-	int				last_meal;
 }					t_data;
 
 //main.c
@@ -74,7 +71,11 @@ void		ft_eat(t_philos *philo);
 
 //overseer.c
 
-void	overseer(t_data *data);
-int     check_each_philo(t_philos *philo);
+void		overseer(t_data *data);
+int			check_each_philo(t_philos *philo);
+
+//utils_2.c
+
+void		ft_destroy(t_data *data);
 
 #endif

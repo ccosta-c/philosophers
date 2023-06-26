@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:45:20 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/20 15:52:58 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:16:29 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	main(int argc, char **argv)
 		}
 		if (initialize(&data) == -1)
 			return (-1);
+		ft_destroy(&data);
 	}
 }
