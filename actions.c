@@ -24,8 +24,6 @@ void	*simulation(void *philo)
 		ft_eat(copy);
 		ft_sleep(copy);
 		ft_print(copy, "is thinking.");
-		if ((time_ms(copy->data->start_time) - copy->last_meal) > copy->data->time_die)
-			copy->data->last_meal = 1;
 	}
 	return (copy);
 }
@@ -43,16 +41,12 @@ void	ft_eat(t_philos *philo)
 
 void	ft_sleep(t_philos *philo)
 {
-	if ((time_ms(philo->data->start_time) - philo->last_meal) > philo->data->time_die)
-		philo->data->last_meal = 1;
 	usleep(philo->data->time_sleep * 1000);
 	ft_print(philo, "is sleeping.");
 }
 
 int	grab_forks(t_philos *philo)
 {
-	if ((time_ms(philo->data->start_time) - philo->last_meal) > philo->data->time_die)
-		philo->data->last_meal = 1;
 	pthread_mutex_lock(philo->l_fork);
 	ft_print(philo, "has taken a fork.");
 	if (philo->data->nbr_philos == 1)
