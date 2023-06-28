@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:20:32 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/26 15:13:43 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:45:00 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	initialize_philos(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[(i + 1) % data->nbr_philos];
+		data->philos[i].last_meal = get_time();
 		i++;
 	}
 	return (0);
@@ -58,22 +59,34 @@ void	simulation_prep(t_data *data)
 	int	i;
 
 	i = 0;
+	data->start_time = get_time();
 	while (i < data->nbr_philos)
 	{
 		pthread_create(&data->philos[i].philo, NULL,
-			&simulation, &data->philos[i]);
+			simulation, &data->philos[i]);
 		usleep(1000);
 		i++;
 	}
-	overseer(data);
+	pthread_create(&data->check_th, NULL, overseer, data);
+	i = 0;
+	while (i < data->nbr_philos)
+	{
+		pthread_join(data->philos[i].philo, NULL);
+		i++;
+	}
+	pthread_join(data->check_th, NULL);
 }
 
 int	initialize(t_data *data)
 {
-	data->start_time = get_time();
 	data->all_ate = 0;
 	data->died = 0;
 	if (pthread_mutex_init(&data->print, NULL))
+	{
+		printf("Error in the print lock");
+		return (-1);
+	}
+	if (pthread_mutex_init(&data->verify, NULL))
 	{
 		printf("Error in the print lock");
 		return (-1);
@@ -85,6 +98,5 @@ int	initialize(t_data *data)
 		printf("Error in the philosophers init.");
 		return (-1);
 	}
-	simulation_prep(data);
 	return (0);
 }

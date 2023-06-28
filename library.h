@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:51:53 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/26 15:16:45 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/28 16:03:26 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_data
 	t_philos		*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
+	pthread_mutex_t	verify;
+	pthread_t 		check_th;
 	long long		start_time;
 }					t_data;
 
@@ -68,10 +70,11 @@ void		ft_sleep(t_philos *philo);
 void		*simulation(void *philo);
 int			grab_forks(t_philos *philo);
 void		ft_eat(t_philos *philo);
+int			verify(t_philos *copy);
 
 //overseer.c
 
-void		overseer(t_data *data);
+void		*overseer(void *data);
 int			check_each_philo(t_philos *philo);
 
 //utils_2.c

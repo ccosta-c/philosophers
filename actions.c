@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:47:29 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/26 15:30:57 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:38:49 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ void	*simulation(void *philo)
 	t_philos	*copy;
 
 	copy = (t_philos *)philo;
+	copy->last_meal = get_time();
 	while (1)
 	{
-		if (copy->data->died == 1)
+		if (verify(copy) == -1)
 			break ;
 		if (grab_forks(copy) == -1)
 			break ;
-		if (copy->data->died == 1)
+		if (verify(copy) == -1)
 			break ;
 		ft_eat(copy);
-		if (copy->data->all_ate || copy->data->died
-			|| copy->data->nbr_philos == copy->data->meals_completed)
+		if (verify(copy) == -1)
 			break ;
 		ft_sleep(copy);
-		if (copy->data->died == 1)
+		if (verify(copy) == -1)
 			break ;
 		ft_print(copy, "is thinking.");
 	}
@@ -39,7 +39,7 @@ void	*simulation(void *philo)
 
 void	ft_eat(t_philos *philo)
 {
-	philo->last_meal = time_ms(philo->data->start_time);
+	philo->last_meal = get_time();
 	ft_print(philo, "is eating.");
 	usleep(philo->data->time_eat * 1000);
 	pthread_mutex_unlock(philo->l_fork);
@@ -61,5 +61,17 @@ int	grab_forks(t_philos *philo)
 		return (-1);
 	pthread_mutex_lock(philo->r_fork);
 	ft_print(philo, "has taken a fork.");
+	return (0);
+}
+
+int	verify(t_philos *copy)
+{
+	pthread_mutex_lock(&copy->data->verify);
+	if (copy->data->died == 1 || copy->data->all_ate == 1)
+	{
+		pthread_mutex_unlock(&copy->data->verify);
+		return (-1);
+	}
+	pthread_mutex_unlock(&copy->data->verify);
 	return (0);
 }
