@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:03:17 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/29 19:00:06 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:30:16 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,3 @@ void	ft_print(t_philos *philo, char *str)
 	printf("%lld %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->print);
 }
-

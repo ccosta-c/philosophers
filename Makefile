@@ -27,7 +27,7 @@ RM = rm -f
 AR = ar -rcs
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FLAGS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_-fsanitize=thread
-CFLAGS		= -Wall -Wextra -Werror -g -pthread -fsanitize=thread
+CFLAGS		= -Wall -Wextra -Werror -g -pthread
 MKFLAGS		= --no-print-directory
 
 #_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_ FOLDERS _/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_/=\_
@@ -40,8 +40,8 @@ SRC				= utils.c initialize.c actions.c overseer.c utils_2.c
 OBJS 			:= $(SRC:.c=.o)
 BONUS			=
 OBJS_BONUS		:= $(BONUS:.c=.o)
-NAME			= philosophers
-NAME_BONUS		= philosophers_bonus
+NAME			= philo
+NAME_BONUS		= philo
 TARGET			= $(addprefix $(SRCS)/, $(OBJS))
 TARGET_BONUS	= $(addprefix $(SRCS_BONUS)/, $(OBJS_BONUS))
 
