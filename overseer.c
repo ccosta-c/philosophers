@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:51:32 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/29 15:33:40 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:28:50 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	num_philos_dead(t_data *rules)
 		pthread_mutex_lock(&rules->philos[i].alive);
 		if ((get_time() - rules->philos[i].last_meal) >= rules->time_die)
 		{
-			ft_print(&rules->philos[i], "died");
+			ft_print(&rules->philos[i], "died.");
 			pthread_mutex_lock(&rules->verify);
 			rules->died = 1;
 			pthread_mutex_unlock(&rules->verify);
@@ -42,6 +42,9 @@ int	num_philos_eaten(t_data *rules)
 	pthread_mutex_lock(&rules->verify);
 	if (rules->all_ate == rules->nbr_philos)
 	{
+		pthread_mutex_lock(&rules->print);
+		printf("All philosophers ate!");
+		pthread_mutex_unlock(&rules->print);
 		pthread_mutex_unlock(&rules->verify);
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:51:53 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/29 16:05:22 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:05:33 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_philos
 {
@@ -58,7 +59,7 @@ void		simulation_prep(t_data *data);
 int			initialize(t_data *data);
 
 //utils.c
-int			ft_atoi(const char *str);
+long		ft_atoi(const char *str);
 int			ft_whitespace(const char *str, int *ptr_i);
 long long	time_ms(long long start_time);
 long long	get_time(void);

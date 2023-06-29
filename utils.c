@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:03:17 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/29 17:13:06 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:00:06 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	ft_whitespace(const char *str, int *ptr_i)
 	return (minus);
 }
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	sign;
-	int	result;
+	int		i;
+	long	sign;
+	long	result;
 
 	result = 0;
 	sign = ft_whitespace(nptr, &i);
@@ -46,6 +46,8 @@ int	ft_atoi(const char *nptr)
 		result += nptr[i] - 48;
 		i++;
 	}
+	if (nptr[i] == '.' || nptr[i] == ',')
+		return (0);
 	result *= sign;
 	return (result);
 }

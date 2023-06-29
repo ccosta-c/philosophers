@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:45:20 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/28 17:16:57 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:07:53 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,22 @@
 int	get_values(char **argv, t_data *args)
 {
 	if (ft_atoi(argv[1]) > 0 && ft_atoi(argv[2]) > 0
-		&& ft_atoi(argv[3]) > 0 && ft_atoi(argv[4]) > 0)
+		&& ft_atoi(argv[3]) > 0 && ft_atoi(argv[4]) > 0
+		&& ft_atoi(argv[1]) < INT_MAX && ft_atoi(argv[2]) < INT_MAX
+		&& ft_atoi(argv[3]) < INT_MAX && ft_atoi(argv[4]) < INT_MAX)
 	{
 		args->nbr_philos = ft_atoi(argv[1]);
 		args->time_die = ft_atoi(argv[2]);
+		printf("%d", args->time_die);
 		args->time_eat = ft_atoi(argv[3]);
 		args->time_sleep = ft_atoi(argv[4]);
 		if (argv[5])
-			args->times_to_eat = ft_atoi(argv[5]);
+		{
+			if (ft_atoi(argv[5]) > 0 && ft_atoi(argv[5]) < INT_MAX)
+				args->times_to_eat = ft_atoi(argv[5]);
+			else
+				return (-1);
+		}
 		if (!argv[5])
 			args->times_to_eat = -1;
 	}
@@ -46,5 +54,9 @@ int	main(int argc, char **argv)
 			return (-1);
 		simulation_prep(&data);
 		ft_destroy(&data);
+	}
+	else
+	{
+		printf("Wrong number of arguments.");
 	}
 }

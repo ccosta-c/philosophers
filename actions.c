@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:47:29 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/29 18:03:10 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:14:58 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*simulation(void *philo)
 		if (copy->data->nbr_philos == 1)
 		{
 			pthread_mutex_lock(copy->l_fork);
-			ft_print(philo, "took the fork");
+			ft_print(philo, "took the fork.");
 			pthread_mutex_unlock(copy->l_fork);
 			return (NULL);
 		}
@@ -33,6 +33,7 @@ void	*simulation(void *philo)
 		if (ft_sleep(copy) == -1)
 			break ;
 		ft_print(copy, "is thinking.");
+		usleep(5000);
 	}
 	return (NULL);
 }
@@ -50,7 +51,7 @@ int	ft_eat(t_philos *philo)
 	}
 	pthread_mutex_unlock(&philo->data->verify);
 	pthread_mutex_lock(&philo->alive);
-	ft_print(philo, "is eating");
+	ft_print(philo, "is eating.");
 	philo->last_meal = get_time();
 	pthread_mutex_lock(&philo->data->verify);
 	philo->times_eaten++;
@@ -75,7 +76,7 @@ int	ft_sleep(t_philos *philo)
 		return (-1);
 	}
 	pthread_mutex_unlock(&philo->data->verify);
-	ft_print(philo, "is sleeping");
+	ft_print(philo, "is sleeping.");
 	usleep(philo->data->time_sleep * 1000);
 	return (0);
 }
@@ -93,16 +94,16 @@ int	grab_forks(t_philos *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->r_fork);
-		ft_print(philo, "took the fork");
+		ft_print(philo, "took the fork.");
 		pthread_mutex_lock(philo->l_fork);
-		ft_print(philo, "took the fork");
+		ft_print(philo, "took the fork.");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_fork);
-		ft_print(philo, "took the fork");
+		ft_print(philo, "took the fork.");
 		pthread_mutex_lock(philo->r_fork);
-		ft_print(philo, "took the fork");
+		ft_print(philo, "took the fork.");
 	}
 	return (0);
 }
