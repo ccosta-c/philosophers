@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:20:32 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/28 17:45:00 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:49:11 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	initialize_philos(t_data *data)
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[(i + 1) % data->nbr_philos];
 		data->philos[i].last_meal = get_time();
+		if (pthread_mutex_init(&data->philos[i].alive, NULL))
+			return (-1);
 		i++;
 	}
 	return (0);
@@ -63,11 +65,11 @@ void	simulation_prep(t_data *data)
 	while (i < data->nbr_philos)
 	{
 		pthread_create(&data->philos[i].philo, NULL,
-			simulation, &data->philos[i]);
+			&simulation, &data->philos[i]);
 		usleep(1000);
 		i++;
 	}
-	pthread_create(&data->check_th, NULL, overseer, data);
+	pthread_create(&data->check_th, NULL, &monitoring, data);
 	i = 0;
 	while (i < data->nbr_philos)
 	{

@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:47:29 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/28 17:38:49 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:03:10 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,61 +17,92 @@ void	*simulation(void *philo)
 	t_philos	*copy;
 
 	copy = (t_philos *)philo;
-	copy->last_meal = get_time();
 	while (1)
 	{
-		if (verify(copy) == -1)
-			break ;
+		if (copy->data->nbr_philos == 1)
+		{
+			pthread_mutex_lock(copy->l_fork);
+			ft_print(philo, "took the fork");
+			pthread_mutex_unlock(copy->l_fork);
+			return (NULL);
+		}
 		if (grab_forks(copy) == -1)
 			break ;
-		if (verify(copy) == -1)
+		if (ft_eat(copy) == -1)
 			break ;
-		ft_eat(copy);
-		if (verify(copy) == -1)
-			break ;
-		ft_sleep(copy);
-		if (verify(copy) == -1)
+		if (ft_sleep(copy) == -1)
 			break ;
 		ft_print(copy, "is thinking.");
 	}
 	return (NULL);
 }
 
-void	ft_eat(t_philos *philo)
+int	ft_eat(t_philos *philo)
 {
+	pthread_mutex_lock(&philo->data->verify);
+	if (philo->data->died == 1
+		|| (philo->data->all_ate == philo->data->nbr_philos))
+	{
+		pthread_mutex_unlock(&philo->data->verify);
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
+		return (-1);
+	}
+	pthread_mutex_unlock(&philo->data->verify);
+	pthread_mutex_lock(&philo->alive);
+	ft_print(philo, "is eating");
 	philo->last_meal = get_time();
-	ft_print(philo, "is eating.");
+	pthread_mutex_lock(&philo->data->verify);
+	philo->times_eaten++;
+	if (philo->data->times_to_eat != -1)
+		if (philo->times_eaten == philo->data->times_to_eat)
+			philo->data->all_ate++;
+	pthread_mutex_unlock(&philo->data->verify);
+	pthread_mutex_unlock(&philo->alive);
 	usleep(philo->data->time_eat * 1000);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	philo->times_eaten++;
+	return (0);
 }
 
-void	ft_sleep(t_philos *philo)
+int	ft_sleep(t_philos *philo)
 {
+	pthread_mutex_lock(&philo->data->verify);
+	if (philo->data->died == 1
+		|| philo->data->all_ate == philo->data->nbr_philos)
+	{
+		pthread_mutex_unlock(&philo->data->verify);
+		return (-1);
+	}
+	pthread_mutex_unlock(&philo->data->verify);
+	ft_print(philo, "is sleeping");
 	usleep(philo->data->time_sleep * 1000);
-	ft_print(philo, "is sleeping.");
+	return (0);
 }
 
 int	grab_forks(t_philos *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	ft_print(philo, "has taken a fork.");
-	if (philo->data->nbr_philos == 1)
-		return (-1);
-	pthread_mutex_lock(philo->r_fork);
-	ft_print(philo, "has taken a fork.");
-	return (0);
-}
-
-int	verify(t_philos *copy)
-{
-	pthread_mutex_lock(&copy->data->verify);
-	if (copy->data->died == 1 || copy->data->all_ate == 1)
+	pthread_mutex_lock(&philo->data->verify);
+	if (philo->data->died == 1
+		|| philo->data->all_ate == philo->data->nbr_philos)
 	{
-		pthread_mutex_unlock(&copy->data->verify);
+		pthread_mutex_unlock(&philo->data->verify);
 		return (-1);
 	}
-	pthread_mutex_unlock(&copy->data->verify);
+	pthread_mutex_unlock(&philo->data->verify);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->r_fork);
+		ft_print(philo, "took the fork");
+		pthread_mutex_lock(philo->l_fork);
+		ft_print(philo, "took the fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->l_fork);
+		ft_print(philo, "took the fork");
+		pthread_mutex_lock(philo->r_fork);
+		ft_print(philo, "took the fork");
+	}
 	return (0);
 }

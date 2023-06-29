@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:03:17 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/28 14:49:35 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:13:06 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,6 @@ int	ft_atoi(const char *nptr)
 	return (result);
 }
 
-long long	time_ms(long long start_time)
-{
-	struct timeval	time;
-	long long		time_total;
-	long long		tmp;
-
-	gettimeofday(&time, NULL);
-	tmp = ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-	time_total = tmp - start_time;
-	return (time_total);
-}
-
 long long	get_time(void)
 {
 	struct timeval	time;
@@ -76,6 +64,14 @@ void	ft_print(t_philos *philo, char *str)
 {
 	long long	time;
 
+	pthread_mutex_lock(&philo->data->verify);
+	if (philo->data->died
+		|| philo->data->all_ate == philo->data->nbr_philos)
+	{
+		pthread_mutex_unlock(&philo->data->verify);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->verify);
 	time = get_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->print);
 	printf("%lld %d %s\n", time, philo->id, str);

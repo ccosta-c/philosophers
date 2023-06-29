@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:51:53 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/28 16:03:26 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:05:22 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@
 
 typedef struct s_philos
 {
-	int				last_meal;
+	long long		last_meal;
 	pthread_t		philo;
 	int				id;
 	int				times_eaten;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	alive;
 	struct s_data	*data;
 }				t_philos;
 
@@ -37,14 +38,13 @@ typedef struct s_data
 	int				time_eat;
 	int				time_sleep;
 	int				times_to_eat;
-	int				meals_completed;
 	int				died;
 	int				all_ate;
 	t_philos		*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	verify;
-	pthread_t 		check_th;
+	pthread_t		check_th;
 	long long		start_time;
 }					t_data;
 
@@ -66,16 +66,17 @@ void		ft_print(t_philos *philo, char *str);
 
 //actions.c
 
-void		ft_sleep(t_philos *philo);
+int			ft_sleep(t_philos *philo);
 void		*simulation(void *philo);
 int			grab_forks(t_philos *philo);
-void		ft_eat(t_philos *philo);
+int			ft_eat(t_philos *philo);
 int			verify(t_philos *copy);
 
 //overseer.c
 
-void		*overseer(void *data);
-int			check_each_philo(t_philos *philo);
+void		*monitoring(void *index);
+int			num_philos_eaten(t_data *rules);
+int			num_philos_dead(t_data *rules);
 
 //utils_2.c
 
