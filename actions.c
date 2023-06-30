@@ -6,7 +6,7 @@
 /*   By: ccosta-c <ccosta-c@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:47:29 by ccosta-c          #+#    #+#             */
-/*   Updated: 2023/06/29 19:14:58 by ccosta-c         ###   ########.fr       */
+/*   Updated: 2023/06/30 19:09:30 by ccosta-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	*simulation(void *philo)
 			pthread_mutex_unlock(copy->l_fork);
 			return (NULL);
 		}
+		if (copy->id % 2 == 0)
+			usleep(4000);
 		if (grab_forks(copy) == -1)
 			break ;
 		if (ft_eat(copy) == -1)
@@ -33,7 +35,6 @@ void	*simulation(void *philo)
 		if (ft_sleep(copy) == -1)
 			break ;
 		ft_print(copy, "is thinking.");
-		usleep(5000);
 	}
 	return (NULL);
 }
