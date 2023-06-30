@@ -21,7 +21,6 @@ int	get_values(char **argv, t_data *args)
 	{
 		args->nbr_philos = ft_atoi(argv[1]);
 		args->time_die = ft_atoi(argv[2]);
-		printf("%d", args->time_die);
 		args->time_eat = ft_atoi(argv[3]);
 		args->time_sleep = ft_atoi(argv[4]);
 		if (argv[5])
